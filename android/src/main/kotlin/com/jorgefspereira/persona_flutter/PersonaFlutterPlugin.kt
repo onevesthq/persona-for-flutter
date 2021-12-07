@@ -186,8 +186,9 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
     if (requestCode == requestCode) {
       when(val result = Inquiry.onActivityResult(data)) {
-
         is InquiryResponse.Complete -> {
+          println("***********************************************************")
+          println(result.status)
           if (result.status == "completed"){
             val arguments = hashMapOf<String, Any?>();
             arguments["inquiryId"] = result.inquiryId;
@@ -200,6 +201,12 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
             val arguments = hashMapOf<String, Any?>();
             arguments["inquiryId"] = result.inquiryId;
             channel.invokeMethod("onFailed", arguments);
+            return true;
+          }
+          if (result.status == "pending"){
+            val arguments = hashMapOf<String, Any?>();
+            arguments["inquiryId"] = result.inquiryId;
+            channel.invokeMethod("onPending", arguments);
             return true;
           }
         }
@@ -216,7 +223,6 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
         }
       }
     }
-
     return false;
   }
 

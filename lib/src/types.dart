@@ -10,6 +10,11 @@ typedef void FailedCallback(
   String inquiryId,
 );
 
+/// A function-type description for onFailed callback
+typedef void PendingCallback(
+    String inquiryId,
+);
+
 /// A function-type description for onCancelled callback
 typedef void CancelledCallback();
 

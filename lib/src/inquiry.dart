@@ -15,6 +15,7 @@ class Inquiry {
     this.onCancelled,
     this.onFailed,
     this.onError,
+    this.onPending,
   }) : _channel = MethodChannel('persona_flutter') {
     _channel.setMethodCallHandler(_onMethodCall);
   }
@@ -40,6 +41,8 @@ class Inquiry {
   /// - [relationships] individual components that are collected through the Inquiry
   final FailedCallback? onFailed;
 
+  final PendingCallback? onPending;
+
   /// Called when there is a problem during the Inquiry flow.
   /// - [error] the reason why the Inquiry did not complete correctly
   final ErrorCallback? onError;
@@ -61,6 +64,11 @@ class Inquiry {
 
       case 'onError':
         onError?.call(call.arguments['error'] as String);
+        break;
+
+      case 'onPending':
+        print('it has entered the pending');
+        onPending?.call(call.arguments['inquiryId'] as String);
         break;
 
       default:
