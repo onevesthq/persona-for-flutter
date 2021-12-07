@@ -354,6 +354,9 @@ public class SwiftPersonaFlutterPlugin: NSObject, FlutterPlugin, InquiryDelegate
                 self.channel.invokeMethod("onFailed", arguments: ["inquiryId": inquiryId]);
                 
         }
+        if (status == "pending"){
+                    self.channel.invokeMethod("onPending", arguments: ["inquiryId": inquiryId]);
+        }
     }
                                                               
       public func inquiryCanceled(inquiryId: String?, sessionToken: String?) {
