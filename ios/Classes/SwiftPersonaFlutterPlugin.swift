@@ -37,67 +37,81 @@ public class SwiftPersonaFlutterPlugin: NSObject, FlutterPlugin, InquiryDelegate
             if let env = arguments.value(forKey: "environment") as? String {
                 environment = Environment.init(rawValue: env)
             }
+
+            let fieldsDict = arguments.value(forKey: "fields") as? Dictionary<String, Any>
+            let nameDict = fieldsDict!["name"]! as? Dictionary<String, String?>
+            let birthdateString = fieldsDict!["birthdate"]! as? String
+            //let formattedDate = dateFormatter().date(from: birthdateString!)
+
+
+            fields = [
+              "nameFirst": .string(nameDict!["first"]! as! String),
+              "nameLast": .string(nameDict!["last"]! as! String),
+              "birthdate": .string(fieldsDict!["birthdate"]! as! String),
+              "phoneNumber": .string(fieldsDict!["phoneNumber"]! as! String),
+              "emailAddress": .string(fieldsDict!["emailAddress"]! as! String)
+            ]
             
             // Build Fields
-            if let fieldsDict = arguments.value(forKey: "fields") as? Dictionary<String, Any> {
-                
-//                var name: Name?
-//                var address: Address?
-                var birthdate: Date?
-                var additionalFields: [String : InquiryField]?
-                let phoneNumber = fieldsDict["phoneNumber"] as? String;
-                let emailAddress = fieldsDict["emailAddress"] as? String;
-                
-                if let birthdateString = fieldsDict["birthdate"] as? String {
-                    birthdate = dateFormatter().date(from: birthdateString);
-                }
-                
-//                if let nameDict = fieldsDict["name"] as? Dictionary<String, String> {
-//                    name = Name.init(first: nameDict["first"],
-//                                     middle: nameDict["middle"],
-//                                     last: nameDict["last"]);
-//                }
-                
-//                if let addressDict = fieldsDict["address"] as? Dictionary<String, String> {
-//                    address = Address.init(street1: addressDict["street1"],
-//                                           street2: addressDict["street2"],
-//                                           city: addressDict["city"],
-//                                           subdivision: addressDict["subdivision"],
-//                                           subdivisionAbbr: addressDict["subdivisionAbbr"],
-//                                           postalCode: addressDict["postalCode"],
-//                                           countryCode: addressDict["countryCode"]);
-//                }
-                
-                if let additionalFieldsDict = fieldsDict["additionalFields"] as? Dictionary<String, Any> {
-                    var auxFields = [String : InquiryField]();
-                    
-                    for (key, value) in additionalFieldsDict{
-                        switch value {
-                            case is Int:
-                                auxFields[key] = InquiryField.int(value as! Int);
-                            case is String:
-                                auxFields[key] = InquiryField.string(value as! String);
-                            case is Bool:
-                                auxFields[key] = InquiryField.bool(value as! Bool);
-                            default:
-                                break;
-                        }
-                    }
-                    
-                    additionalFields = auxFields;
-                }
-                
-                fields = ["name" : InquiryField.string("name"),
-                       "address" : InquiryField.string("address")];
-                
+//             if let fieldsDict = arguments.value(forKey: "fields") as? Dictionary<String, Any> {
 //
-//                fields = Fields.init(name: name,
-//                                     address: address,
-//                                     birthdate: birthdate,
-//                                     phoneNumber: phoneNumber,
-//                                     emailAddress: emailAddress,
-//                                     additionalFields: additionalFields);
-            }
+// //                var name: Name?
+// //                var address: Address?
+//                 var birthdate: Date?
+//                 var additionalFields: [String : InquiryField]?
+//                 let phoneNumber = fieldsDict["phoneNumber"] as? String;
+//                 let emailAddress = fieldsDict["emailAddress"] as? String;
+//
+//                 if let birthdateString = fieldsDict["birthdate"] as? String {
+//                     birthdate = dateFormatter().date(from: birthdateString);
+//                 }
+//
+// //                if let nameDict = fieldsDict["name"] as? Dictionary<String, String> {
+// //                    name = Name.init(first: nameDict["first"],
+// //                                     middle: nameDict["middle"],
+// //                                     last: nameDict["last"]);
+// //                }
+//
+// //                if let addressDict = fieldsDict["address"] as? Dictionary<String, String> {
+// //                    address = Address.init(street1: addressDict["street1"],
+// //                                           street2: addressDict["street2"],
+// //                                           city: addressDict["city"],
+// //                                           subdivision: addressDict["subdivision"],
+// //                                           subdivisionAbbr: addressDict["subdivisionAbbr"],
+// //                                           postalCode: addressDict["postalCode"],
+// //                                           countryCode: addressDict["countryCode"]);
+// //                }
+//
+//                 if let additionalFieldsDict = fieldsDict["additionalFields"] as? Dictionary<String, Any> {
+//                     var auxFields = [String : InquiryField]();
+//
+//                     for (key, value) in additionalFieldsDict{
+//                         switch value {
+//                             case is Int:
+//                                 auxFields[key] = InquiryField.int(value as! Int);
+//                             case is String:
+//                                 auxFields[key] = InquiryField.string(value as! String);
+//                             case is Bool:
+//                                 auxFields[key] = InquiryField.bool(value as! Bool);
+//                             default:
+//                                 break;
+//                         }
+//                     }
+//
+//                     additionalFields = auxFields;
+//                 }
+//
+//                 fields = ["name" : InquiryField.string("name"),
+//                        "address" : InquiryField.string("address")];
+//
+// //
+// //                fields = Fields.init(name: name,
+// //                                     address: address,
+// //                                     birthdate: birthdate,
+// //                                     phoneNumber: phoneNumber,
+// //                                     emailAddress: emailAddress,
+// //                                     additionalFields: additionalFields);
+//             }
             
             // Build Theme
             if let themeDict = arguments.value(forKey: "theme") as? Dictionary<String, Any> {
@@ -317,20 +331,20 @@ public class SwiftPersonaFlutterPlugin: NSObject, FlutterPlugin, InquiryDelegate
                     config = InquiryConfiguration(templateId: templateId,
                                                   accountId: accountId,
                                                   environment: environment,
-//                                                  fields: fields,
+                                                  fields: fields,
                                                   theme: theme);
                 }
                 else if let referenceId = referenceIdInput {
                     config = InquiryConfiguration(templateId: templateId,
                                                   referenceId: referenceId,
                                                   environment: environment,
-//                                                  fields: fields,
+                                                  fields: fields,
                                                   theme: theme);
                 }
                 else {
                     config = InquiryConfiguration(templateId: templateId,
                                                   environment: environment,
-//                                                  fields: fields,
+                                                  fields: fields,
                                                   theme: theme);
                 }
             }
