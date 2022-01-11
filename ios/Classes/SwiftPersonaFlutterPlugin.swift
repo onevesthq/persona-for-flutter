@@ -46,6 +46,7 @@ public class SwiftPersonaFlutterPlugin: NSObject, FlutterPlugin, InquiryDelegate
 
             fields = [
               "nameFirst": .string(nameDict!["first"]! as! String),
+              "nameMiddle": .string(nameDict!["middle"]! as! String),
               "nameLast": .string(nameDict!["last"]! as! String),
               "birthdate": .string(fieldsDict!["birthdate"]! as! String),
               "phoneNumber": .string(fieldsDict!["phoneNumber"]! as! String),
