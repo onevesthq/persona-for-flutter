@@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Inquiry _inquiry;
+  late Inquiry _inquiry;
 
   @override
   void initState() {
