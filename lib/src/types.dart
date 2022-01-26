@@ -12,7 +12,7 @@ typedef void FailedCallback(
 
 /// A function-type description for onFailed callback
 typedef void PendingCallback(
-    String inquiryId,
+  String inquiryId,
 );
 
 /// A function-type description for onCancelled callback
@@ -20,6 +20,10 @@ typedef void CancelledCallback();
 
 /// A function-type description for onError callback
 typedef void ErrorCallback(String error);
+
+typedef void NeedsReviewCallback(
+  String inquiryId,
+);
 
 /// The Persona API environment on which to create inquiries.
 enum InquiryEnvironment {

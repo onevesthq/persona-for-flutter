@@ -209,6 +209,12 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
             channel.invokeMethod("onPending", arguments);
             return true;
           }
+          if (result.status == "needs_review"){
+            val arguments = hashMapOf<String, Any?>();
+            arguments["inquiryId"] = result.inquiryId;
+            channel.invokeMethod("onNeedsReview", arguments);
+            return true;
+          }
         }
 
         is InquiryResponse.Cancel -> {

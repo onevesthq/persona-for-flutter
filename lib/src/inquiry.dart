@@ -16,6 +16,7 @@ class Inquiry {
     this.onFailed,
     this.onError,
     this.onPending,
+    this.onNeedsReview,
   }) : _channel = MethodChannel('persona_flutter') {
     _channel.setMethodCallHandler(_onMethodCall);
   }
@@ -47,6 +48,8 @@ class Inquiry {
   /// - [error] the reason why the Inquiry did not complete correctly
   final ErrorCallback? onError;
 
+  final NeedsReviewCallback? onNeedsReview;
+
   /// Handles receiving messages on the [MethodChannel]
   Future<dynamic> _onMethodCall(MethodCall call) async {
     switch (call.method) {
@@ -67,8 +70,11 @@ class Inquiry {
         break;
 
       case 'onPending':
-        print('it has entered the pending');
         onPending?.call(call.arguments['inquiryId'] as String);
+        break;
+
+      case 'onNeedsReview':
+        onNeedsReview?.call(call.arguments['inquiryId'] as String);
         break;
 
       default:
