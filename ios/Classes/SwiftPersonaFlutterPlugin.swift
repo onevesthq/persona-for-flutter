@@ -364,18 +364,18 @@ public class SwiftPersonaFlutterPlugin: NSObject, FlutterPlugin, InquiryDelegate
     public func inquiryComplete(inquiryId: String, status: String, fields: [String : InquiryField]) {
         if (status == "completed"){
             self.channel.invokeMethod("onSuccess", arguments: ["inquiryId": inquiryId]);
+            return;
         }
        if(status == "failed"){
                 self.channel.invokeMethod("onFailed", arguments: ["inquiryId": inquiryId]);
-                
+                return;
         }
         if (status == "pending"){
                     self.channel.invokeMethod("onPending", arguments: ["inquiryId": inquiryId]);
+                    return;
         }
 
-        if (status == "needs_review"){
-                    self.channel.invokeMethod("onNeedsReview", arguments: ["inquiryId": inquiryId]);
-        }
+       self.channel.invokeMethod("onNeedsReview", arguments: ["inquiryId": inquiryId]);
     }
                                                               
       public func inquiryCanceled(inquiryId: String?, sessionToken: String?) {

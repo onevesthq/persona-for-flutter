@@ -188,7 +188,7 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
       when(val result = Inquiry.onActivityResult(data)) {
         is InquiryResponse.Complete -> {
           println("***********************************************************")
-          println(result.status)
+          println("this is the status " + result.status)
           if (result.status == "completed"){
             val arguments = hashMapOf<String, Any?>();
             arguments["inquiryId"] = result.inquiryId;
@@ -209,12 +209,9 @@ public class PersonaFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
             channel.invokeMethod("onPending", arguments);
             return true;
           }
-          if (result.status == "needs_review"){
-            val arguments = hashMapOf<String, Any?>();
-            arguments["inquiryId"] = result.inquiryId;
-            channel.invokeMethod("onNeedsReview", arguments);
-            return true;
-          }
+          val arguments = hashMapOf<String, Any?>();
+          arguments["inquiryId"] = result.inquiryId;
+          channel.invokeMethod("onNeedsReview", arguments);
         }
 
         is InquiryResponse.Cancel -> {

@@ -52,6 +52,7 @@ class Inquiry {
 
   /// Handles receiving messages on the [MethodChannel]
   Future<dynamic> _onMethodCall(MethodCall call) async {
+    print('this is the course : ${call.method}');
     switch (call.method) {
       case 'onSuccess':
         onSuccess?.call(call.arguments['inquiryId'] as String);
